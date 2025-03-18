@@ -10,7 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,20 +25,27 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-e&&#t*)l9%4c(tqslgcf@aw2$d5u=8@%6i#r32%+o#dk+)(+^1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+
+    'app1',
+    'adminside',
+    'userauths',
+    'admindash',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -54,10 +63,11 @@ ROOT_URLCONF = 'Ecom.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'Template')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'app1.context_processor.default',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -75,10 +85,16 @@ WSGI_APPLICATION = 'Ecom.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': '1234',
+        'HOST': 'localhost',  # or your database host
+        'PORT': '',  # Leave empty for the default PostgreSQL port
     }
 }
+
+AUTH_USER_MODEL='userauths.User'
 
 
 # Password validation
@@ -117,7 +133,55 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),  
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTHENTICATION_BACKENDS = [
+    'app1.backends.EmailBackend',  # Replace with the correct path
+    'django.contrib.auth.backends.ModelBackend',  # Include the default backend
+]
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_USE_TLS=config('EMAIL_USE_TLS')
+# EMAIL_HOST=config('EMAIL_HOST')
+# EMAIL_FROM=config('EMAIL_FROM')
+# EMAIL_HOST_USER=config('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD=config('EMAIL_HOST_PASSWORD')
+# EMAIL_PORT=config('EMAIL_PORT')
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True  # Enable TLS security
+EMAIL_USE_SSL = False  # Ensure SSL is not used if TLS is enabled
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587  # Correct Gmail SMTP port for TLS
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # Read from .env
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # Read from .env
+EMAIL_FROM = EMAIL_HOST_USER  # Typically, this is the sender address
+
+
+
+SHORTUUID_FIELD_SUFFIX = '_short'
+
+
+PAYPAL_RECEIVER_EMAIL="sb-esx47o28804878@business.example.com"
+PAYPAL_TEST=True
+
+# sb-dvqbs28803619@personal.example.com
+# pass: _=sa##T3
+
+
+# sb-o81l528804913@personal.example.com
+# S^']e2Z4

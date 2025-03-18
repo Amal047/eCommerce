@@ -1,0 +1,108 @@
+<!-- <center><strong>CONFRIM YOUR ACCOUNT</strong></center>
+
+<center><p>check the inbox of your email - {{email}} - and enter the otp<p></center>
+
+<body>
+    <form action="{% url 'userauths:otp_verification'%}" method="POST">
+        {% csrf_token %}
+        <center>Enter the otp : <input type="text" placeholder="enter the otp" name="otp"></center><br><br>
+        <center><button type="submit">verify</button></center>
+    </form>
+</body>
+
+
+{%if messages%}
+{%for message in messages%}
+<script>alert('{{message}}')</script>
+{%endfor%}
+{%endif%} -->
+
+<!-- registration/confirm_account.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Your Account</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        
+        .container {
+            width: 300px;
+            padding: 16px;
+            background-color: #fff;
+            margin: 100px auto;
+            box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        label {
+            margin-bottom: 8px;
+        }
+        
+        input {
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        button {
+            padding: 8px;
+            background-color: #007BFF;
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="text-center">
+          <h2 class="font-weight-bold" style="padding-left: 20px;">Confirm Your Account</h2>
+        </div>
+    
+        <form action="{% url 'userauths:otp_verification_login' %}" method="POST" class="mt-4">
+          {% csrf_token %}
+          <div class="form-group text-center">
+            <label for="otp" class="font-weight-bold" style="padding: 30%;">Enter the OTP</label><br>
+            <input type="text" class="form-control-lg" style="padding-left: 115px;"  id="otp" name="otp" placeholder="Enter the OTP" required>
+          </div>
+          
+          <div class="text-center mt-4" style="padding-left: 120px;" >
+            <button type="submit" class="btn btn-primary btn-lg">Verify</button>
+          </div>
+        </form>
+      </div>
+</body>
+{%if messages%}
+{%for message in messages%}
+<script>alert('{{message}}')</script>
+{%endfor%}
+{%endif%}
+</html>
