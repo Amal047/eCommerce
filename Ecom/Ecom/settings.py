@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-e&&#t*)l9%4c(tqslgcf@aw2$d5u=8@%6i#r32%+o#dk+)(+^1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -167,8 +167,8 @@ EMAIL_USE_TLS = True  # Enable TLS security
 EMAIL_USE_SSL = False  # Ensure SSL is not used if TLS is enabled
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587  # Correct Gmail SMTP port for TLS
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # Read from .env
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # Read from .env
+EMAIL_HOST_USER = 'amal.bvp@gmail.com' 
+EMAIL_HOST_PASSWORD = 'rgfm ygvk vayl ojgg'  
 EMAIL_FROM = EMAIL_HOST_USER  # Typically, this is the sender address
 
 
